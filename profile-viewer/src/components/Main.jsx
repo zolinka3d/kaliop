@@ -8,7 +8,6 @@ export default function Main() {
   const [profiles, setProfiles] = useState([]);
   const [page, setPage] = useState(1);
   const [loading, setLoading] = useState(true);
-  const [loadMoreLoading, setLoadMoreLoading] = useState(false);
 
   const handleClick = () => {
     setPage(page + 1);
