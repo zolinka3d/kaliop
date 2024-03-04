@@ -2,8 +2,8 @@ import CreadentialsDetails from "./CreadentialsDetails";
 
 export default function ProfileCreadentials({ profile }) {
   return (
-    <div className="flex justify-center items-center p-5">
-      <div className="bg-light flex flex-col p-10 rounded gap-2">
+    <div className="flex justify-center items-center p-5 ">
+      <div className="bg-light flex flex-col p-10 rounded gap-2 shadow-lg">
         <img
           className="rounded-full w-30 h-30 m-auto"
           src={profile.picture.large}

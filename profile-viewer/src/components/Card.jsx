@@ -1,6 +1,7 @@
 import { useNavigate } from "react-router-dom";
 import { useState, useEffect } from "react";
 import { FaCheck } from "react-icons/fa";
+import Button from "./ui/Button";
 
 export default function Card({ profile }) {
   const navigate = useNavigate();
@@ -32,7 +33,7 @@ export default function Card({ profile }) {
   }, []);
 
   return (
-    <div className="flex flex-col p-5 justify-center items-center">
+    <div className="flex flex-col p-5 justify-center items-center shadow-lg bg-light rounded">
       <img
         className="rounded-full w-30 h-30 m-auto"
         src={profile.picture.large}
@@ -43,12 +44,7 @@ export default function Card({ profile }) {
         <div>{profile.name.last}</div>
       </div>
       <div>{profile.email}</div>
-      <button
-        className="bg-primary text-white p-3 rounded-md mt-5"
-        onClick={handleClick}
-      >
-        View Profile
-      </button>
+      <Button handleClick={handleClick}>View Profile</Button>
       {seenProfile && (
         <div className="flex gap-1 items-center p-1">
           <div>Seen</div>
