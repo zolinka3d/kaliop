@@ -29,4 +29,6 @@ const app = new App({
   app.message("helloworld", async ({ message, say }) => {
     await say(`Hey there <@${message.user}>!`);
   });
+
+  console.log("app is running...");
 })();
