@@ -31,11 +31,11 @@ const blocks = [
   }
 ];
 
-/*app.client.chat.postMessage({
+app.client.chat.postMessage({
   channel: 'C06MY8PHZSN',
   text: 'ASD',
   blocks: blocks
-});*/
+});
 
 // Obsługa kliknięcia przycisku
 app.action('open_modal', async ({ ack, body }) => {
