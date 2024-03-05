@@ -24,15 +24,3 @@ async function main() {
 }
 
 main();
-
-const express = require("express");
-const app2 = express();
-const port = 2000;
-
-app2.get("/", (req, res) => {
-  res.send("Hello World!");
-});
-
-app2.listen(port, () => {
-  console.log(`Example app listening at http://localhost:${port}`);
-});
