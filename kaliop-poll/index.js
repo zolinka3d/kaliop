@@ -15,7 +15,7 @@ const interval = setInterval(async () => {
 
   app.client.chat.postMessage({
     channel: channelId,
-    text: message
+    text: message.blocks
   });
 }, 120000);
 
