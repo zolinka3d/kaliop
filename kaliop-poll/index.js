@@ -8,19 +8,53 @@ const app = new Slack.App({
   token: process.env.SLACK_BOT_TOKEN,
 });
 
-// app.client.chat.postMessage({
-//   token: process.env.SLACK_BOT_TOKEN,
-//   channel: process.env.SLACK_CHANNEL,
-//   text: "Hello world",
-// });
+const channelId = 'C06MY8PHZSN';
 
-async function main() {
-  await app.start(process.env.PORT || 3000);
-  console.log("⚡️ Bolt app is running!");
+const interval = setInterval(() => {
+  const message = await generatePollMessage();
 
-  app.message("helloworld", async ({ message, say }) => {
-    await say(`Hey there <@${message.user}>!`);
+  app.client.chat.postMessage({
+    channel: channelId,
+    text: message
   });
+}, 120000);
+
+async function generatePollMessage() {
+  const options = [
+    {
+      text: "Test 1",
+      value: "test1"
+    },
+    {
+      text: "Test 2",
+      value: "test2"
+    }
+  ];
+
+  const blocks = [
+    {
+      type: "section",
+      text: {
+        type: "mrkdwn",
+        text: "Ankieta nastrojowa"
+      }
+    },
+    {
+      type: "actions",
+      elements: options.map((option) => {
+        return {
+          type: "button",
+          text: option.text,
+          value: option.value,
+          action_id: "vote"
+        };
+      })
+    }
+  ];
+
+  return {
+    blocks: blocks
+  };
 }
 
-main();
+app.start();
