@@ -1,0 +1,17 @@
+{
+  "name": "kaliop-poll",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "@slack/bolt": "^3.17.1",
+    "@slack/socket-mode": "^1.3.3",
+    "@slack/web-api": "^7.0.2",
+    "dotenv": "^16.4.5"
+  }
+}
