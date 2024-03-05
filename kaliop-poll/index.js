@@ -8,53 +8,84 @@ const app = new Slack.App({
   token: process.env.SLACK_BOT_TOKEN,
 });
 
-const channelId = 'D01KS9N7885';
-
-/*const interval = setInterval(async () => {
-  const message = await generatePollMessage();
-
-  app.client.chat.postMessage({
-    channel: channelId,
-    blocks: message.blocks
-  });
-}, 180000);*/
-
-async function generatePollMessage() {
-  const options = [
-    {
-      text: "Test 1",
-      value: "test1"
-    },
-    {
-      text: "Test 2",
-      value: "test2"
+const blocks = [
+  {
+    type: "section",
+    text: {
+      type: "mrkdwn",
+      text: "Moody"
     }
-  ];
-
-  const blocks = [
-    {
-      type: "section",
-      text: {
-        type: "mrkdwn",
-        text: "Ankieta nastrojowa"
+  },
+  {
+    type: "actions",
+    elements: [
+      {
+        type: "button",
+        text: {
+          type: "plain_text",
+          text: "Ankieta"
+        },
+        action_id: "open_modal"
       }
-    },
-    {
-      type: "actions",
-      elements: options.map((option) => {
-        return {
-          type: "button",
-          text: option.text,
-          value: option.value,
-          action_id: "vote"
-        };
-      })
-    }
-  ];
+    ]
+  }
+];
 
-  return {
-    blocks: blocks
+/*app.client.chat.postMessage({
+  channel: 'C06MY8PHZSN',
+  text: 'ASD',
+  blocks: blocks
+});*/
+
+// Obsługa kliknięcia przycisku
+app.action('open_modal', async ({ ack, body }) => {
+  console.log('asd')
+  // Potwierdź akcję
+  await ack();
+
+  // Ustaw parametry modala
+  const modal = {
+    title: "Tytuł modala",
+    callback_id: "submit_modal",
+    submit_label: "Wyślij",
+    close: {
+      text: "Zamknij",
+      action_id: "close_modal"
+    },
+    blocks: [
+      {
+        type: "input",
+        element: {
+          type: "text",
+          action_id: "input_text"
+        },
+        label: "Wpisz tekst"
+      }
+    ]
   };
-}
+
+  // Otwórz modal
+  await app.client.views.open({
+    trigger_id: body.trigger_id,
+    view: modal
+  });
+});
+
+
+// Obsługa zatwierdzenia modala
+app.action('submit_modal', async ({ ack, body }) => {
+  // Potwierdź akcję
+  await ack();
+
+  // Pobierz dane z modala
+  const text = body.view.state.values.input_text.value;
+
+  // ... przetwórz dane (np. zapisz w bazie danych)
+
+  // Zamknij modal
+  await app.client.views.close({
+    view_id: body.view.id
+  });
+});
 
 app.start();
