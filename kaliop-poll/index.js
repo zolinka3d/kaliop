@@ -10,14 +10,14 @@ const app = new Slack.App({
 
 const channelId = 'D01KS9N7885';
 
-const interval = setInterval(async () => {
+/*const interval = setInterval(async () => {
   const message = await generatePollMessage();
 
   app.client.chat.postMessage({
     channel: channelId,
     blocks: message.blocks
   });
-}, 180000);
+}, 180000);*/
 
 async function generatePollMessage() {
   const options = [
