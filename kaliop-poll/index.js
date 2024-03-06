@@ -6,6 +6,9 @@ dotenv.config();
 const app = new Slack.App({
   signingSecret: process.env.SLACK_SIGNING_SECRET,
   token: process.env.SLACK_BOT_TOKEN,
+  socketMode: true,
+  appToken: process.env.SLACK_APP_TOKEN,
+  port: process.env.PORT || 3000
 });
 
 const blocks = [
@@ -31,40 +34,49 @@ const blocks = [
   }
 ];
 
-app.client.chat.postMessage({
+await app.client.chat.postMessage({
   channel: 'C06MY8PHZSN',
-  text: 'ASD',
+  text: 'asdf',
   blocks: blocks
 });
 
-// Obsługa kliknięcia przycisku
-app.action('open_modal', async ({ ack, body }) => {
-  console.log('asd')
-  // Potwierdź akcję
+app.action('open_modal', async ({  ack, body }) => {
   await ack();
 
-  // Ustaw parametry modala
   const modal = {
-    title: "Tytuł modala",
-    callback_id: "submit_modal",
-    submit_label: "Wyślij",
-    close: {
-      text: "Zamknij",
-      action_id: "close_modal"
+    type: "modal",
+    title: {
+      type: "plain_text",
+      text: "Moody"
     },
+    submit: {
+      type: "plain_text",
+      text: "Wyślij"
+    },
+    close: {
+      type: "plain_text",
+      text: "Zamknij"
+    },
+    callback_id: "submit_modal",
     blocks: [
       {
         type: "input",
-        element: {
-          type: "text",
-          action_id: "input_text"
+        label: {
+          type: "plain_text",
+          text: "Labelka"
         },
-        label: "Wpisz tekst"
+        element: {
+          type: "plain_text_input",
+          action_id: "input_text",
+          placeholder: {
+            type: "plain_text",
+            text: "Placholder bla bla bla"
+          },
+        }
       }
     ]
   };
 
-  // Otwórz modal
   await app.client.views.open({
     trigger_id: body.trigger_id,
     view: modal
@@ -72,20 +84,22 @@ app.action('open_modal', async ({ ack, body }) => {
 });
 
 
-// Obsługa zatwierdzenia modala
 app.action('submit_modal', async ({ ack, body }) => {
-  // Potwierdź akcję
   await ack();
+  console.log(body.view.state.values)
 
-  // Pobierz dane z modala
   const text = body.view.state.values.input_text.value;
 
-  // ... przetwórz dane (np. zapisz w bazie danych)
+  // w tym miejscu przetwarzamy dane z modala po submicie i albo robimy close, albo update (update w przypadku kolejnych pytań)
+  // Tylko trzeba rozkminić dlaczego to nie działa podejrzewam że jest jakiś problem przez Vercela, najlepiej jakbyś z Frankiem to postawiła na AWS
 
-  // Zamknij modal
   await app.client.views.close({
     view_id: body.view.id
   });
 });
 
-app.start();
+async function main() {
+  await app.start();
+}
+
+module.exports = main;
