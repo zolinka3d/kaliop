@@ -13,8 +13,8 @@ const blocks = [
     type: "section",
     text: {
       type: "mrkdwn",
-      text: "Moody"
-    }
+      text: "Moody",
+    },
   },
   {
     type: "actions",
@@ -23,23 +23,23 @@ const blocks = [
         type: "button",
         text: {
           type: "plain_text",
-          text: "Ankieta"
+          text: "Ankieta",
         },
-        action_id: "open_modal"
-      }
-    ]
-  }
+        action_id: "open_modal",
+      },
+    ],
+  },
 ];
 
 app.client.chat.postMessage({
-  channel: 'C06MY8PHZSN',
-  text: 'ASD',
-  blocks: blocks
+  channel: "C06MY8PHZSN",
+  text: "ASD",
+  blocks: blocks,
 });
 
 // Obsługa kliknięcia przycisku
-app.action('open_modal', async ({ ack, body }) => {
-  console.log('asd')
+app.action("open_modal", async ({ ack, body }) => {
+  console.log("asd");
   // Potwierdź akcję
   await ack();
 
@@ -50,41 +50,41 @@ app.action('open_modal', async ({ ack, body }) => {
     submit_label: "Wyślij",
     close: {
       text: "Zamknij",
-      action_id: "close_modal"
+      action_id: "close_modal",
     },
     blocks: [
       {
         type: "input",
         element: {
           type: "text",
-          action_id: "input_text"
+          action_id: "input_text",
         },
-        label: "Wpisz tekst"
-      }
-    ]
+        label: "Wpisz tekst",
+      },
+    ],
   };
 
   // Otwórz modal
   await app.client.views.open({
     trigger_id: body.trigger_id,
-    view: modal
+    view: modal,
   });
 });
 
-
 // Obsługa zatwierdzenia modala
-app.action('submit_modal', async ({ ack, body }) => {
+app.action("submit_modal", async ({ ack, body }) => {
   // Potwierdź akcję
   await ack();
 
   // Pobierz dane z modala
   const text = body.view.state.values.input_text.value;
+  console.log(text);
 
   // ... przetwórz dane (np. zapisz w bazie danych)
 
   // Zamknij modal
   await app.client.views.close({
-    view_id: body.view.id
+    view_id: body.view.id,
   });
 });
 
